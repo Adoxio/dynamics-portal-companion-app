@@ -8,6 +8,9 @@ using System.Diagnostics;
 using PortalBuddyWebApp.Extensions;
 using Microsoft.Xrm.Tooling.Connector;
 using Microsoft.Xrm.Sdk.Client;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace PortalBuddyWebApp.Controllers
 {
@@ -16,15 +19,17 @@ namespace PortalBuddyWebApp.Controllers
         //public CrmSdkController(CrmCoreServiceClient crmClient) : base (crmClient) {  }
 
         public CrmSdkController(CrmServiceClient crmClient, OrganizationServiceContext context, IOrganizationService orgSevice) : base(crmClient, context, orgSevice) { }
-
+        
         public IActionResult Index()
         {
+            var identity = (ClaimsIdentity)User.Identity;
             var contacts = ServiceContext.CreateQuery("contact").ToList();
             return View(model: string.Join(",", contacts.Select(a => a.GetAttributeValue<string>("fullname"))));
         }
 
         public IActionResult WhoAmI()
         {
+            var identity = (ClaimsIdentity)User.Identity;
             WhoAmIResponse response = (WhoAmIResponse)OrgService.Execute(new WhoAmIRequest());
 
             string responseText = responseText = $"{response.UserId}";           
@@ -49,11 +54,12 @@ namespace PortalBuddyWebApp.Controllers
 
             return View((object)responseText);
         }
-
+        
         [Produces("application/json")]
         [Route("api/CrmSdk")]
         public IEnumerable<Entity> GetContacts()
         {
+            var identity = (ClaimsIdentity)User.Identity;
             var contacts = ServiceContext.CreateQuery("contact").ToList();
             return contacts;
         }

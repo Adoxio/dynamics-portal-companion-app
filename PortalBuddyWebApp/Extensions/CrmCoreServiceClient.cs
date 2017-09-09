@@ -42,11 +42,6 @@ namespace PortalBuddyWebApp.Extensions
             }
         }
 
-        public static CrmCoreServiceClient Instance(IOptions<DynS2SOptions> s2sOptions, IOptions<DynConnStringOptions> connStringOptions)
-        {
-            return new CrmCoreServiceClient(s2sOptions, connStringOptions);
-        }
-
         public CrmServiceClient CrmServiceClient
         {
             get { return ServiceProxy != null ? new CrmServiceClient(ServiceProxy) : new CrmServiceClient(WebProxyClient); }
