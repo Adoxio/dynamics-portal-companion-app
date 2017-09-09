@@ -6,27 +6,26 @@ using Microsoft.Xrm.Sdk;
 using Microsoft.Crm.Sdk.Messages;
 using System.Diagnostics;
 using PortalBuddyWebApp.Extensions;
+using Microsoft.Xrm.Tooling.Connector;
+using Microsoft.Xrm.Sdk.Client;
 
 namespace PortalBuddyWebApp.Controllers
 {
-    public class CrmSdkController : Controller
+    public class CrmSdkController : PortalBuddyController
     {
-        private readonly CrmCoreServiceClient _crmClient;
+        //public CrmSdkController(CrmCoreServiceClient crmClient) : base (crmClient) {  }
 
-        public CrmSdkController(CrmCoreServiceClient crmClient)
-        {
-            _crmClient = crmClient;
-        }
+        public CrmSdkController(CrmServiceClient crmClient, OrganizationServiceContext context, IOrganizationService orgSevice) : base(crmClient, context, orgSevice) { }
 
         public IActionResult Index()
         {
-            var contacts = _crmClient.ServiceContext.CreateQuery("contact").ToList();
+            var contacts = ServiceContext.CreateQuery("contact").ToList();
             return View(model: string.Join(",", contacts.Select(a => a.GetAttributeValue<string>("fullname"))));
         }
 
         public IActionResult WhoAmI()
         {
-            WhoAmIResponse response = (WhoAmIResponse)_crmClient.OrgService.Execute(new WhoAmIRequest());
+            WhoAmIResponse response = (WhoAmIResponse)OrgService.Execute(new WhoAmIRequest());
 
             string responseText = responseText = $"{response.UserId}";           
             
@@ -37,13 +36,13 @@ namespace PortalBuddyWebApp.Controllers
         {
             Trace.TraceInformation("Start MultipleCalls");
 
-            WhoAmIResponse response = (WhoAmIResponse)_crmClient.OrgService.Execute(new WhoAmIRequest());
+            WhoAmIResponse response = (WhoAmIResponse)OrgService.Execute(new WhoAmIRequest());
             Trace.TraceInformation("WhoAmI Executed");
 
             string responseText = $"{response.UserId} : ";
 
             List<string> contacts = null;
-            contacts = _crmClient.ServiceContext.CreateQuery("contact").Select(a => a.GetAttributeValue<string>("fullname")).ToList();
+            contacts = ServiceContext.CreateQuery("contact").Select(a => a.GetAttributeValue<string>("fullname")).ToList();
             Trace.TraceInformation("Contact Query Executed");
             
             responseText += contacts != null ? string.Join(",", contacts) : "null";
@@ -55,7 +54,7 @@ namespace PortalBuddyWebApp.Controllers
         [Route("api/CrmSdk")]
         public IEnumerable<Entity> GetContacts()
         {
-            var contacts = _crmClient.ServiceContext.CreateQuery("contact").ToList();
+            var contacts = ServiceContext.CreateQuery("contact").ToList();
             return contacts;
         }
     }

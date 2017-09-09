@@ -16,8 +16,9 @@ namespace PortalBuddyWebApp.Extensions
         private OrganizationWebProxyClient _organizationWebProxyClient;
         private OrganizationServiceContext _organizationServiceContext;
         private OrganizationServiceProxy _organizationServiceProxy;
+        private CrmServiceClient _crmServiceClient;
 
-        public CrmCoreServiceClient(IOptions<DynS2SOptions> s2sOptions, IOptions<DynConnStringOptions> connStringOptions)
+        public CrmCoreServiceClient(IOptions<DynS2SOptions> s2sOptions, IOptions<DynConnStringOptions> connStringOptions) 
         {
             if (s2sOptions.Value.Validate())
             {
@@ -28,17 +29,27 @@ namespace PortalBuddyWebApp.Extensions
             if (!string.IsNullOrEmpty(connStringOptions?.Value.ConnString))
             {
                 Trace.TraceInformation("Setting with Conn String");
-                var crmServiceClient = new CrmServiceClient(connStringOptions.Value.ConnString);
-                if (crmServiceClient.IsReady)
+                _crmServiceClient = new CrmServiceClient(connStringOptions.Value.ConnString);
+                if (_crmServiceClient.IsReady)
                 {
                     Trace.TraceInformation("Setting ServiceProxy with CrmServiceClient");
-                    _organizationServiceProxy = crmServiceClient.OrganizationServiceProxy;
+                    _organizationServiceProxy = _crmServiceClient.OrganizationServiceProxy;
                 }
                 else
                 {
                     throw new Exception("unable to create CrmServiceClient based on connection string");
                 }
             }
+        }
+
+        public static CrmCoreServiceClient Instance(IOptions<DynS2SOptions> s2sOptions, IOptions<DynConnStringOptions> connStringOptions)
+        {
+            return new CrmCoreServiceClient(s2sOptions, connStringOptions);
+        }
+
+        public CrmServiceClient CrmServiceClient
+        {
+            get { return ServiceProxy != null ? new CrmServiceClient(ServiceProxy) : new CrmServiceClient(WebProxyClient); }
         }
 
         public OrganizationWebProxyClient WebProxyClient

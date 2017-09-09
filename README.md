@@ -4,6 +4,12 @@ Portal Buddy is a starter template for a companion web app for Dynamics 365 port
 
 Portal Buddy is built on ASP.NET Core 2.0 with the .NET Framework 4.6.1.  It includes the Dynamics 365 SDK and the Dynamics 365 Xrm Tooling utlizing the CrmServiceClient implemented for ASP.NET Core as CrmCoreServiceClient.
 
+## Objective
+
+Portal Buddy provides a way to extend the Dynamics 365 portal with custom code in a secure manner.  This is accomplished by abstracting the Dynamics 365 portal authentication to a Single Sign On or Secure Token Service so that the user identity can be shared across applications.  This template implements the now natively Dynamics 365 portal supported Azure AD B2C.  Azure AD B2C has also been announced to replace all future authentication.
+
+Utilizing JavaScript front-end frameworks like [angular.js](), [react.js](), and [vue.js]() you can create seamless user experiences with this template that utilize custom server side code with the .NET Framework and Dynamics 365 SDK.
+
 ## Building
 
 To build the project, ensure that you have [Git](https://git-scm.com/downloads) installed to obtain the source code, and [Visual Studio 2017](https://docs.microsoft.com/en-us/visualstudio/welcome-to-visual-studio) with [ASP.NET Core 2.0](https://www.microsoft.com/net/download/core) installed to compile the source code.
