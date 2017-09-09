@@ -23,10 +23,10 @@ namespace WebApp.Extensions
             Resource = resource;
             TenantId = tenantId;
 
-            AssertAppSettings();
+            Assert();
         }
 
-        public void AssertAppSettings()
+        public void Assert()
         {
             if (string.IsNullOrEmpty(ClientId) || !Guid.TryParse(ClientId, out Guid tempGuid))
             {
@@ -47,14 +47,15 @@ namespace WebApp.Extensions
             Trace.TraceInformation("Successfully asserted Dynamics S2S Options");
         }
 
-        public bool ValidateAppSettings()
+        public bool Validate()
         {
             try
             {
-                AssertAppSettings();
+                Assert();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Trace.TraceWarning($"Validate of S2S Options failed: {ex.Message}");
                 return false;
             }
             return true;

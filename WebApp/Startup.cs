@@ -26,6 +26,7 @@ namespace WebApp
 
             services.Configure<DynS2SOptions>(Configuration.GetSection("Dynamics:dynS2S"));
             services.Configure<DynConnStringOptions>(Configuration.GetSection("Dynamics:dynConnString"));
+            services.AddSingleton<CrmCoreServiceClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
