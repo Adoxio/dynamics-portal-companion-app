@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Crm.Sdk.Messages;
 using System.Diagnostics;
-using WebApp.Extensions;
+using PortalBuddyWebApp.Extensions;
 
-namespace WebApp.Controllers
+namespace PortalBuddyWebApp.Controllers
 {
     public class CrmSdkController : Controller
     {

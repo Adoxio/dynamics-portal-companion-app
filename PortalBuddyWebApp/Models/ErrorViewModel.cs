@@ -1,6 +1,6 @@
 using System;
 
-namespace WebApp.Models
+namespace PortalBuddyWebApp.Models
 {
     public class ErrorViewModel
     {
