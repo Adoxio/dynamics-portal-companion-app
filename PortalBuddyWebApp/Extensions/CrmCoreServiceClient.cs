@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Adoxio.Dynamics.Connect;
+using Microsoft.Extensions.Options;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Client;
 using Microsoft.Xrm.Sdk.WebServiceClient;
@@ -16,29 +17,42 @@ namespace PortalBuddyWebApp.Extensions
         private OrganizationWebProxyClient _organizationWebProxyClient;
         private OrganizationServiceContext _organizationServiceContext;
         private OrganizationServiceProxy _organizationServiceProxy;
-        private CrmServiceClient _crmServiceClient;
 
         public CrmCoreServiceClient(IOptions<DynS2SOptions> s2sOptions, IOptions<DynConnStringOptions> connStringOptions) 
         {
             if (s2sOptions.Value.Validate())
             {
-                // S2S not currently implemented
-                throw new Exception("Dynamics S2S authentication not currently implemented");
+                var crmContext = new CrmContext(new S2SAppSettings(s2sOptions.Value.ClientId, s2sOptions.Value.ClientSecret, s2sOptions.Value.Resource, s2sOptions.Value.TenantId));
+                var crmServiceClientWeb = new CrmServiceClient(crmContext.WebProxyClient);
+                if (crmServiceClientWeb.IsReady)
+                {
+                    Trace.TraceInformation("Setting WebProxyClient with Adoxio Dynamics Connect CrmContext WebProxyClient");
+                    _organizationWebProxyClient = crmServiceClientWeb.OrganizationWebProxyClient;
+                }
+                else
+                {
+                    Trace.TraceWarning("unable to create CrmServiceClient based on S2S settings from Adoxio Dynamics Connect");
+                }
             }
 
             if (!string.IsNullOrEmpty(connStringOptions?.Value.ConnString))
             {
                 Trace.TraceInformation("Setting with Conn String");
-                _crmServiceClient = new CrmServiceClient(connStringOptions.Value.ConnString);
-                if (_crmServiceClient.IsReady)
+                var crmServiceClientService = new CrmServiceClient(connStringOptions.Value.ConnString);
+                if (crmServiceClientService.IsReady)
                 {
                     Trace.TraceInformation("Setting ServiceProxy with CrmServiceClient");
-                    _organizationServiceProxy = _crmServiceClient.OrganizationServiceProxy;
+                    _organizationServiceProxy = crmServiceClientService.OrganizationServiceProxy;
                 }
                 else
                 {
-                    throw new Exception("unable to create CrmServiceClient based on connection string");
+                    Trace.TraceWarning("unable to create CrmServiceClient based on connection string");
                 }
+            }
+
+            if (OrgService == null)
+            {
+                throw new Exception("unable to create CrmServiceClient - both S2S and ConnString failed");
             }
         }
 

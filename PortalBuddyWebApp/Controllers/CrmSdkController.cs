@@ -16,9 +16,13 @@ namespace PortalBuddyWebApp.Controllers
 {
     public class CrmSdkController : PortalBuddyController
     {
-        //public CrmSdkController(CrmCoreServiceClient crmClient) : base (crmClient) {  }
+        public CrmCoreServiceClient CrmCoreClient;
+        public CrmSdkController(CrmCoreServiceClient crmCoreClient) : base(crmCoreClient)
+        {
+            CrmCoreClient = crmCoreClient;
+        }
 
-        public CrmSdkController(CrmServiceClient crmClient, OrganizationServiceContext context, IOrganizationService orgSevice) : base(crmClient, context, orgSevice) { }
+        //public CrmSdkController(CrmServiceClient crmClient, OrganizationServiceContext context, IOrganizationService orgSevice) : base(crmClient, context, orgSevice) { }
         
         public IActionResult Index()
         {

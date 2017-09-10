@@ -16,11 +16,11 @@ namespace PortalBuddyWebApp.Controllers
         public OrganizationServiceContext ServiceContext;
         public IOrganizationService OrgService;
 
-        public PortalBuddyController(CrmCoreServiceClient crmClient)
+        public PortalBuddyController(CrmCoreServiceClient crmCoreClient)
         {
-            CrmServiceClient = crmClient.CrmServiceClient;
-            ServiceContext = crmClient.ServiceContext;
-            OrgService = crmClient.OrgService;
+            CrmServiceClient = crmCoreClient.CrmServiceClient;
+            ServiceContext = crmCoreClient.ServiceContext;
+            OrgService = crmCoreClient.OrgService;
         }
 
         public PortalBuddyController(CrmServiceClient crmClient, OrganizationServiceContext context, IOrganizationService orgService)
