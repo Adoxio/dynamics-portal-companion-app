@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Options;
 using PortalBuddyWebApp.Extensions;
 
-namespace Adoxio.ConnectWebCore.Controllers
+namespace PortalBuddyWebApp.Controllers
 {    
     public class AccountController : Controller
     {

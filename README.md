@@ -10,6 +10,18 @@ Portal Buddy provides a way to extend the Dynamics 365 portal with custom code i
 
 Utilizing JavaScript front-end frameworks like [angular.js](https://angular.io/), [react.js](https://facebook.github.io/react/), and [vue.js](https://vuejs.org/) you can create seamless user experiences with this template that utilize custom server side code with the .NET Framework and Dynamics 365 SDK.
 
+## Components
+
+#### PortalBuddyWebApp
+Starter Template based on ASP.NET Core 1.1 with .NET Framework 4.6.1 Web Application
+
+#### solutions
+Starter solutions by Portal Buddy Team:
+* Portal Buddy Base - includes default security role for use with S2S user or Connection String user to allow sample code to execute.
+
+#### liquid
+Liquid Templates to be added to Dynamics 365 portals configuration for easy component installation
+
 ## Building
 
 To build the project, ensure that you have [Git](https://git-scm.com/downloads) installed to obtain the source code, and [Visual Studio 2017](https://docs.microsoft.com/en-us/visualstudio/welcome-to-visual-studio) with [ASP.NET Core 2.0](https://www.microsoft.com/net/download/core) installed to compile the source code.

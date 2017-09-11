@@ -28,10 +28,27 @@ textarea {
     width: 100%;
 }
 
+.pb-jumbo {
+    background-color: #006DD9;
+    color: #fff;
+    padding: 25px;
+    margin: 20px 0;
+}
+
+    .pb-jumbo h1 {
+        font-size: 56px;
+        margin: 50px 0;
+    }
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
     .carousel-caption {
         display: none;
+    }
+
+    .pb-jumbo h1 {
+        font-size: 30px;
+        margin: 20px 0;
     }
 }
