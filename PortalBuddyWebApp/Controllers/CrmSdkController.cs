@@ -14,15 +14,18 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace PortalBuddyWebApp.Controllers
 {
-    public class CrmSdkController : PortalBuddyController
+    public class CrmSdkController : Controller
     {
-        public CrmCoreServiceClient CrmCoreClient;
-        public CrmSdkController(CrmCoreServiceClient crmCoreClient) : base(crmCoreClient)
-        {
-            CrmCoreClient = crmCoreClient;
-        }
+        public CrmServiceClient CrmServiceClient;
+        public OrganizationServiceContext ServiceContext;
+        public IOrganizationService OrgService;
 
-        //public CrmSdkController(CrmServiceClient crmClient, OrganizationServiceContext context, IOrganizationService orgSevice) : base(crmClient, context, orgSevice) { }
+        public CrmSdkController(CrmServiceClient crmClient, OrganizationServiceContext context, IOrganizationService orgSevice)
+        {
+            CrmServiceClient = crmClient;
+            ServiceContext = context;
+            OrgService = orgSevice;
+        }
         
         public IActionResult Index()
         {

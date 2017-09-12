@@ -56,7 +56,8 @@ namespace PortalBuddyWebApp
             services.Configure<DynS2SOptions>(Configuration.GetSection("Dynamics:dynS2S"));
             services.Configure<DynConnStringOptions>(Configuration.GetSection("Dynamics:dynConnString"));
 
-            services.Configure<AzureAdB2COptions>(Configuration.GetSection("Authentication:AzureADB2C"));
+            services.Configure<AzureAdB2CJwtOptions>(Configuration.GetSection("Authentication:AzureADB2C-JWT"));
+            services.Configure<AzureAdB2COidcOptions>(Configuration.GetSection("Authentication:AzureADB2C-OIDC"));
 
             services.AddSingleton<CrmCoreServiceClient>();
 
@@ -71,7 +72,7 @@ namespace PortalBuddyWebApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IOptions<AzureAdB2COptions> azureAdB2COptions)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IOptions<AzureAdB2COidcOptions> azureAdB2COidcOptions, IOptions<AzureAdB2CJwtOptions> azureAdB2CJwtOptions)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -100,12 +101,12 @@ namespace PortalBuddyWebApp
             // Setup Azure AD B2C OpenID Connect Authentication
             app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
             {
-                Authority = azureAdB2COptions.Value.Authority,
-                MetadataAddress = azureAdB2COptions.Value.Metadata,
+                Authority = azureAdB2COidcOptions.Value.Authority,
+                MetadataAddress = azureAdB2COidcOptions.Value.Metadata,
                 SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme,
-                AuthenticationScheme = azureAdB2COptions.Value.DefaultPolicy.ToLower(),
-                ClientId = azureAdB2COptions.Value.ClientId,
-                PostLogoutRedirectUri = azureAdB2COptions.Value.RedirectUri,
+                AuthenticationScheme = azureAdB2COidcOptions.Value.DefaultPolicy.ToLower(),
+                ClientId = azureAdB2COidcOptions.Value.ClientId,
+                PostLogoutRedirectUri = azureAdB2COidcOptions.Value.RedirectUri,
                 Events = new OpenIdConnectEvents
                 {
                     OnRemoteFailure = RemoteFailure,
@@ -128,8 +129,8 @@ namespace PortalBuddyWebApp
             // Setup Azure AD B2C JWT Bearer Authentication
             app.UseJwtBearerAuthentication(new JwtBearerOptions
             {
-                MetadataAddress = azureAdB2COptions.Value.Metadata,
-                Audience = azureAdB2COptions.Value.ClientId,
+                MetadataAddress = azureAdB2CJwtOptions.Value.Metadata,
+                Audience = azureAdB2CJwtOptions.Value.ClientId,
                 Events = new JwtBearerEvents
                 {
                     OnAuthenticationFailed = context =>

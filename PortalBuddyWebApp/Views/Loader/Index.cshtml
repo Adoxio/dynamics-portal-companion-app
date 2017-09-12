@@ -1,4 +1,4 @@
-@model PortalBuddyWebApp.Extensions.AzureAdB2COptions
+@model PortalBuddyWebApp.Extensions.AzureAdB2CJwtOptions
 
 @{
     Layout = null;
@@ -60,16 +60,16 @@
         },
         Client: '',
         Init: function () {
-            console.log("Portal Buddy App Initializing");
+            console.log("Portal Buddy Auth Initializing");
             PortalBuddy.Auth.Client = new CC.CORE.PBAL.AppTokenFactory(
                 PortalBuddy.Auth.Params.ClientId,
                 PortalBuddy.Auth.Params.Tenant,
                 PortalBuddy.Auth.Params.ApiScopes,
                 PortalBuddy.Auth.Params.Policy,
                 PortalBuddy.UserId,
-                "https://portalbuddy.microsoftcrmportals.com/" + "blank.gif",
+                PortalBuddy.Auth.Params.RedirectUri,
                 PortalBuddy.Uri);
-            console.log("Portal Buddy App Initialized");
+            console.log("Portal Buddy Auth Initialized");
         },
         GetHeaders: function (token, additionalHeaders) {
             var ajaxHeaders = {};
@@ -97,14 +97,27 @@
         BaseScripts: [
             PortalBuddy.Uri + '/js/pbal/pbal.js'
         ],
+        Init: function () {
+            console.log("Portal Buddy App Initializing");
+            
+            console.log("Portal Buddy App Initialized");
+        },
         ExecuteRequest: function (type, data, dataType, processData, queryPath, additionalHeaders, async, requestKind) {
+            var deferred = jQuery.Deferred();
+
             PortalBuddy.Auth.Client.GetToken().always(function (accessToken) {
                 if (requestKind == 'xml') {
-                    PortalBuddy.App.ExecuteXmlRequest(type, data, responseType, async, queryPath, additionalHeaders, accessToken);
+                    PortalBuddy.App.ExecuteXmlRequest(type, data, responseType, async, queryPath, additionalHeaders, accessToken).then(function (data) {
+                        deferred.resolve(data);
+                    });
                 } else {
-                    PortalBuddy.App.ExecuteAjaxRequest(type, data, dataType, processData, queryPath, additionalHeaders, accessToken);
+                    PortalBuddy.App.ExecuteAjaxRequest(type, data, dataType, processData, queryPath, additionalHeaders, accessToken).then(function (data) {
+                        deferred.resolve(data);
+                    });
                 }
             });
+
+            return deferred.promise();
         },
         ExecuteAjaxRequest: function (type, data, dataType, processData, queryPath, additionalHeaders, token) {
             var deferred = jQuery.Deferred();

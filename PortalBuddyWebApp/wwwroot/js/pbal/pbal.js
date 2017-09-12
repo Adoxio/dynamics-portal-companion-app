@@ -134,7 +134,7 @@ CC.CORE.Log = function (errMsg) {
 CC.CORE.PBAL = (function () {
     "use strict";
     
-    var appTokenFactory = function (aadAppClientId, tenant, b2cScope, b2cPolicy, userId, redirectUrl, connectUrl) {
+    var appTokenFactory = function (aadAppClientId, tenant, b2cScope, b2cPolicy, userId, redirectUrl) {
         // NOTE on security: include the userId in the cache key to prevent the case where a user logs out but
         // leaves the tab open and a new user logs in on the same tab. The first user's calender
         // would be returned if we didn't associate the cache key with the current user.
@@ -147,8 +147,7 @@ CC.CORE.PBAL = (function () {
             cacheKey: cacheKey,
             scope: b2cScope,
             policy: b2cPolicy,
-            oid: userId,
-            connectUrl: connectUrl
+            oid: userId
         };
 
         var getAuthorizeUri = function (params, redirectUrl) {

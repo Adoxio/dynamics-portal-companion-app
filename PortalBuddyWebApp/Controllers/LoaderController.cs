@@ -10,9 +10,9 @@ namespace PortalBuddyWebApp.Controllers
 {
     public class LoaderController : Controller
     {
-        public AzureAdB2COptions B2COptions;
+        public AzureAdB2CJwtOptions B2COptions;
 
-        public LoaderController(IOptions<AzureAdB2COptions> b2cOptions)
+        public LoaderController(IOptions<AzureAdB2CJwtOptions> b2cOptions)
         {
             B2COptions = b2cOptions.Value;
         }

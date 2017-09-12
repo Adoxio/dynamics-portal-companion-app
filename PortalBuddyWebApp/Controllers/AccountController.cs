@@ -10,9 +10,9 @@ namespace PortalBuddyWebApp.Controllers
 {    
     public class AccountController : Controller
     {
-        private readonly AzureAdB2COptions _azureAdB2COptions;
+        private readonly AzureAdB2COidcOptions _azureAdB2COptions;
 
-        public AccountController(IOptions<AzureAdB2COptions> authOptions)
+        public AccountController(IOptions<AzureAdB2COidcOptions> authOptions)
         {
             _azureAdB2COptions = authOptions.Value;
         }
