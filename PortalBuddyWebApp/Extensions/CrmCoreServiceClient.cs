@@ -14,9 +14,9 @@ namespace PortalBuddyWebApp.Extensions
         private const string ServiceEndpoint = @"/xrmservices/2011/organization.svc/web?SdkClientVersion=";
         private const string AadInstance = "https://login.microsoftonline.com/";
 
-        private OrganizationWebProxyClient _organizationWebProxyClient;
         private OrganizationServiceContext _organizationServiceContext;
         private OrganizationServiceProxy _organizationServiceProxy;
+        private CrmContext _crmContext;
 
         public CrmCoreServiceClient(IOptions<DynS2SOptions> s2sOptions, IOptions<DynConnStringOptions> connStringOptions) 
         {
@@ -26,8 +26,8 @@ namespace PortalBuddyWebApp.Extensions
                 var crmServiceClientWeb = new CrmServiceClient(crmContext.WebProxyClient);
                 if (crmServiceClientWeb.IsReady)
                 {
-                    Trace.TraceInformation("Setting WebProxyClient with Adoxio Dynamics Connect CrmContext WebProxyClient");
-                    _organizationWebProxyClient = crmServiceClientWeb.OrganizationWebProxyClient;
+                    Trace.TraceInformation("Setting CrmContext with Adoxio Dynamics Connect");
+                    _crmContext = crmContext;
                 }
                 else
                 {
@@ -63,7 +63,7 @@ namespace PortalBuddyWebApp.Extensions
 
         public OrganizationWebProxyClient WebProxyClient
         {
-            get { return _organizationWebProxyClient; }
+            get { return _crmContext?.WebProxyClient; }
         }
 
         public OrganizationServiceProxy ServiceProxy
