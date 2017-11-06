@@ -2,10 +2,6 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
-    "iis": {
-      "applicationUrl": "https://portalbuddy.local.adoxio.com/",
-      "sslPort": 0
-    },
     "iisExpress": {
       "applicationUrl": "https://localhost:44344/",
       "sslPort": 44344
@@ -26,12 +22,6 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "https://localhost:44344/"
-    },
-    "IIS": {
-      "commandName": "IIS",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
     }
   }
 }
