@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using PortalBuddyWebApp.Extensions;
+using WebApp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PortalBuddyWebApp.Controllers
+namespace WebApp.Controllers
 {
     public class LoaderController : Controller
     {

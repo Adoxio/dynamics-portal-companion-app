@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using PortalBuddyWebApp.Extensions;
+using WebApp.Extensions;
 using Microsoft.Xrm.Sdk.Client;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Tooling.Connector;
@@ -18,7 +18,7 @@ using System.Net;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
-namespace PortalBuddyWebApp
+namespace WebApp
 {
     public class Startup
     {

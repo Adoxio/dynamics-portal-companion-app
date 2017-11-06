@@ -286,6 +286,7 @@ CC.CORE.PBAL = (function () {
 
             if (params.oid == "" || params.oid == null) {
                 // clear cache to avoid stale access tokens being available
+                CC.CORE.Log("PBAL: clear cache");
                 CC.CORE.Cache.Clear();
                 deferred.reject({
                     error: "no user detected",

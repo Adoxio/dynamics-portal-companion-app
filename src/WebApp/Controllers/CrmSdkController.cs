@@ -5,14 +5,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Crm.Sdk.Messages;
 using System.Diagnostics;
-using PortalBuddyWebApp.Extensions;
+using WebApp.Extensions;
 using Microsoft.Xrm.Tooling.Connector;
 using Microsoft.Xrm.Sdk.Client;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-namespace PortalBuddyWebApp.Controllers
+namespace WebApp.Controllers
 {
     public class CrmSdkController : Controller
     {

@@ -7,7 +7,7 @@ using Microsoft.Xrm.Tooling.Connector;
 using System;
 using System.Diagnostics;
 
-namespace PortalBuddyWebApp.Extensions
+namespace WebApp.Extensions
 {
     public class CrmCoreServiceClient
     {

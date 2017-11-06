@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Options;
-using PortalBuddyWebApp.Extensions;
+using WebApp.Extensions;
 
-namespace PortalBuddyWebApp.Controllers
+namespace WebApp.Controllers
 {    
     public class AccountController : Controller
     {

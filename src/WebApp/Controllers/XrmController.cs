@@ -2,13 +2,13 @@
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Client;
 using Microsoft.Xrm.Tooling.Connector;
-using PortalBuddyWebApp.Extensions;
+using WebApp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PortalBuddyWebApp.Controllers
+namespace WebApp.Controllers
 {
     public class XrmController : Controller
     {

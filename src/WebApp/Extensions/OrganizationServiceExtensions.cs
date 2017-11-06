@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 
-namespace PortalBuddyWebApp.Extensions
+namespace WebApp.Extensions
 {
     public static class OrganizationServiceExtensions
     {
