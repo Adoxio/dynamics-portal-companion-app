@@ -64,11 +64,18 @@ namespace PortalBuddyWebApp.Controllers
         
         [Produces("application/json")]
         [Route("api/CrmSdk")]
-        public IEnumerable<Entity> GetContacts()
+        public IEnumerable<string> GetContacts()
         {
             var identity = (ClaimsIdentity)User.Identity;
-            var contacts = ServiceContext.CreateQuery("contact").ToList();
-            return contacts;
+
+            if (identity.IsAuthenticated)
+            {
+                var contact = OrgService.GetContact(identity);
+
+                return new List<string> { contact.GetAttributeValue<string>("fullname") };
+            }
+            
+            return ServiceContext.CreateQuery("contact").Select(a => a.GetAttributeValue<string>("fullname")).ToList();
         }
     }
 }

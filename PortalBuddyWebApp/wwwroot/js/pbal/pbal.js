@@ -107,8 +107,20 @@ CC.CORE.Cache = (function () {
 
     var clear = function (key) {
         var cache = getCacheObject();
-        cache.removeItem(key);
-        cache.removeItem(getExpiryKey(key));
+        if (key) {
+            cache.removeItem(key);
+            cache.removeItem(getExpiryKey(key));
+        } else {
+            var keys = [];
+            for (var i = 0; i < cache.length; i++) {
+                if (cache.key(i).indexOf("candc_cache_PBAL") >= 0) {
+                    keys.push(cache.key(i));
+                }
+            }
+            for (var i = 0; i < keys.length; i++) {
+                cache.removeItem(keys[i]);
+            }
+        }
     };
 
     return {
@@ -206,8 +218,8 @@ CC.CORE.PBAL = (function () {
                 frameHref = iframeData.currentTarget.contentWindow.location.href;
             }
             catch (error) {
-                deferred.reject(error);
-                return;
+                //deferred.reject(error);
+                //return;
             }
 
             // parse iframe query string parameters
@@ -272,7 +284,9 @@ CC.CORE.PBAL = (function () {
 
             var params = this.params;
 
-            if (params.oid == "") {
+            if (params.oid == "" || params.oid == null) {
+                // clear cache to avoid stale access tokens being available
+                CC.CORE.Cache.Clear();
                 deferred.reject({
                     error: "no user detected",
                     errorDescription: "user id in Portal hidden input was null or not found"

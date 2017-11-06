@@ -10,20 +10,20 @@ using System.Threading.Tasks;
 
 namespace PortalBuddyWebApp.Controllers
 {
-    public class PortalBuddyController : Controller
+    public class XrmController : Controller
     {
         public CrmServiceClient CrmServiceClient;
         public OrganizationServiceContext ServiceContext;
         public IOrganizationService OrgService;
 
-        public PortalBuddyController(CrmCoreServiceClient crmCoreClient)
+        public XrmController(CrmCoreServiceClient crmCoreClient)
         {
             CrmServiceClient = crmCoreClient.CrmServiceClient;
             ServiceContext = crmCoreClient.ServiceContext;
             OrgService = crmCoreClient.OrgService;
         }
 
-        public PortalBuddyController(CrmServiceClient crmClient, OrganizationServiceContext context, IOrganizationService orgService)
+        public XrmController(CrmServiceClient crmClient, OrganizationServiceContext context, IOrganizationService orgService)
         {
             CrmServiceClient = crmClient;
             ServiceContext = context;

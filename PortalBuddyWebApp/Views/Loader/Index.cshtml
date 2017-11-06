@@ -5,7 +5,17 @@
 }
 
 <script>
-    var PortalBuddy = {        Uri: document.getElementById("portal-buddyUri").value,        UserId: document.getElementById("portal-userId").value,        WebsiteId: document.getElementById("portal-websiteId").value,        NewGuid: function () {            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);                return v.toString(16);            });        }	};
+    var PortalBuddy = {
+        Uri: document.getElementById("portalbuddy-uri").value,
+        UserId: document.getElementById("portalbuddy-userId").value,
+        WebsiteId: document.getElementById("portalbuddy-websiteId").value,
+        NewGuid: function () {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+	};
 
     PortalBuddy.Loader = {
         LoadScripts: function (scripts, callback) {
