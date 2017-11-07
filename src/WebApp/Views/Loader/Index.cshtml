@@ -5,10 +5,10 @@
 }
 
 <script>
-    var PortalBuddy = {
-        Uri: document.getElementById("portalbuddy-uri").value,
-        UserId: document.getElementById("portalbuddy-userId").value,
-        WebsiteId: document.getElementById("portalbuddy-websiteId").value,
+    var DynPCA = {
+        Uri: document.getElementById("dynpca-uri").value,
+        UserId: document.getElementById("dynpca-userId").value,
+        WebsiteId: document.getElementById("dynpca-websiteId").value,
         NewGuid: function () {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
                 var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -17,7 +17,7 @@
         }
 	};
 
-    PortalBuddy.Loader = {
+    DynPCA.Loader = {
         LoadScripts: function (scripts, callback) {
             var script = scripts.shift();
             var el = document.createElement('script');
@@ -25,7 +25,7 @@
             el.onload = function (scriptEvent) {
                 console.log(scriptEvent.target.src + ' loaded');
                 if (scripts.length) {
-                    PortalBuddy.Loader.LoadScripts(scripts, callback);
+                    DynPCA.Loader.LoadScripts(scripts, callback);
                 }
                 else {
                     if (callback !== undefined) {
@@ -44,7 +44,7 @@
             el.onload = function (styleEvent) {
                 console.log(styleEvent.target.href + ' loaded');
                 if (styles.length) {
-                    PortalBuddy.Loader.LoadStyleSheets(styles, callback);
+                    DynPCA.Loader.LoadStyleSheets(styles, callback);
                 }
                 else {
                     if (callback !== undefined) {
@@ -58,7 +58,7 @@
         }
     }
 
-    PortalBuddy.Auth = {
+    DynPCA.Auth = {
         Params: {
             ClientId: '@Model.ClientId',
             Authority: '@Model.Authority',
@@ -70,16 +70,16 @@
         },
         Client: '',
         Init: function () {
-            console.log("Portal Buddy Auth Initializing");
-            PortalBuddy.Auth.Client = new CC.CORE.PBAL.AppTokenFactory(
-                PortalBuddy.Auth.Params.ClientId,
-                PortalBuddy.Auth.Params.Tenant,
-                PortalBuddy.Auth.Params.ApiScopes,
-                PortalBuddy.Auth.Params.Policy,
-                PortalBuddy.UserId,
-                PortalBuddy.Auth.Params.RedirectUri,
-                PortalBuddy.Uri);
-            console.log("Portal Buddy Auth Initialized");
+            console.log("PBAL Auth Initializing");
+            DynPCA.Auth.Client = new CC.CORE.PBAL.AppTokenFactory(
+                DynPCA.Auth.Params.ClientId,
+                DynPCA.Auth.Params.Tenant,
+                DynPCA.Auth.Params.ApiScopes,
+                DynPCA.Auth.Params.Policy,
+                DynPCA.UserId,
+                DynPCA.Auth.Params.RedirectUri,
+                DynPCA.Uri);
+            console.log("PBAL Auth Initialized");
         },
         GetHeaders: function (token, additionalHeaders) {
             var ajaxHeaders = {};
@@ -103,25 +103,25 @@
 
     }
 
-    PortalBuddy.App = {
+    DynPCA.App = {
         BaseScripts: [
-            PortalBuddy.Uri + '/js/pbal/pbal.js'
+            DynPCA.Uri + '/js/pbal/pbal.js'
         ],
         Init: function () {
-            console.log("Portal Buddy App Initializing");
+            console.log("Dynamics Portal Companion App Initializing");
             
-            console.log("Portal Buddy App Initialized");
+            console.log("Dynamics Portal Companion App Initialized");
         },
         ExecuteRequest: function (type, data, dataType, processData, queryPath, additionalHeaders, async, requestKind) {
             var deferred = jQuery.Deferred();
 
-            PortalBuddy.Auth.Client.GetToken().always(function (accessToken) {
+            DynPCA.Auth.Client.GetToken().always(function (accessToken) {
                 if (requestKind == 'xml') {
-                    PortalBuddy.App.ExecuteXmlRequest(type, data, responseType, async, queryPath, additionalHeaders, accessToken).then(function (data) {
+                    DynPCA.App.ExecuteXmlRequest(type, data, responseType, async, queryPath, additionalHeaders, accessToken).then(function (data) {
                         deferred.resolve(data);
                     });
                 } else {
-                    PortalBuddy.App.ExecuteAjaxRequest(type, data, dataType, processData, queryPath, additionalHeaders, accessToken).then(function (data) {
+                    DynPCA.App.ExecuteAjaxRequest(type, data, dataType, processData, queryPath, additionalHeaders, accessToken).then(function (data) {
                         deferred.resolve(data);
                     });
                 }
@@ -131,11 +131,11 @@
         },
         ExecuteAjaxRequest: function (type, data, dataType, processData, queryPath, additionalHeaders, token) {
             var deferred = jQuery.Deferred();
-            var ajaxHeaders = PortalBuddy.Auth.Client.GetHeaders(token, additionalHeaders);
+            var ajaxHeaders = DynPCA.Auth.Client.GetHeaders(token, additionalHeaders);
 
             jQuery.ajax({
                 method: type,
-                url: PortalBuddy.Uri + queryPath,
+                url: DynPCA.Uri + queryPath,
                 data: data,
                 dataType: dataType,
                 processData: processData,
@@ -156,10 +156,10 @@
         },
         ExecuteXmlRequest: function (type, data, responseType, async, queryPath, additionalHeaders, token) {
             var deferred = jQuery.Deferred();
-            var ajaxHeaders = PortalBuddy.Auth.Client.GetHeaders(token, additionalHeaders);
+            var ajaxHeaders = DynPCA.Auth.Client.GetHeaders(token, additionalHeaders);
 
             var xhr = new XMLHttpRequest();
-            xhr.open(type, PortalBuddy.Uri + queryPath, async);
+            xhr.open(type, DynPCA.Uri + queryPath, async);
             xhr.responseType = responseType;
 
             for (var key in ajaxHeaders) {
@@ -177,5 +177,5 @@
         }
     }
 
-    PortalBuddy.Loader.LoadScripts(PortalBuddy.App.BaseScripts, PortalBuddy.Auth.Init);
+    DynPCA.Loader.LoadScripts(DynPCA.App.BaseScripts, DynPCA.Auth.Init);
 </script>
